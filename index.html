@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jbparfums — Perfumes Árabes Auténticos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+ :root {
+ --gold: #C9A96E;
+ --gold-light: #E8D5B0;
+ --gold-dark: #9B7A42;
+ --ink: #0D0C0A;
+ --ink-soft: #1C1A16;
+ --cream: #F7F2EA;
+ --cream-dark: #EDE5D5;
+ --smoke: #8A8070;
+ --white: #FDFAF5;
+ }
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body {
+ font-family: 'Jost', sans-serif;
+ background: var(--ink);
+ color: var(--cream);
+ overflow-x: hidden;
+ }
+
+ /* ── NOISE OVERLAY ── */
+ body::before {
+ content: '';
+ position: fixed;
+ inset: 0;
+ background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+ pointer-events: none;
+ z-index: 0;
+ opacity: 0.4;
+ }
+
+ /* ── NAV ── */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 100;
+ padding: 1.25rem 4rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ background: linear-gradient(to bottom, rgba(13,12,10,0.95) 0%, transparent 100%);
+ backdrop-filter: blur(2px);
+ }
+ .nav-logo {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 1.5rem;
+ font-weight: 400;
+ letter-spacing: 0.15em;
+ color: var(--gold);
+ text-decoration: none;
+ }
+ .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+ .nav-links a {
+ font-size: 0.75rem;
+ font-weight: 400;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ color: var(--cream-dark);
+ text-decoration: none;
+ transition: color 0.2s;
+ }
+ .nav-links a:hover { color: var(--gold); }
+ .nav-cta {
+ font-size: 0.72rem;
+ font-weight: 500;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ padding: 0.6rem 1.5rem;
+ border: 1px solid var(--gold);
+ color: var(--gold);
+ text-decoration: none;
+ transition: all 0.25s;
+ }
+ .nav-cta:hover { background: var(--gold); color: var(--ink); }
+ .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+ .nav-burger span { width: 24px; height: 1px; background: var(--cream); transition: all 0.3s; }
+
+ /* ── HERO ── */
+ .hero {
+ position: relative;
+ min-height: 100vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+ padding: 0 2rem;
+ overflow: hidden;
+ }
+ .hero-bg {
+ position: absolute;
+ inset: 0;
+ background:
+ radial-gradient(ellipse 80% 60% at 50% 60%, rgba(201,169,110,0.12) 0%, transparent 70%),
+ radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,169,110,0.06) 0%, transparent 60%),
+ linear-gradient(180deg, #0D0C0A 0%, #1a1610 50%, #0D0C0A 100%);
+ }
+ .hero-ornament {
+ position: absolute;
+ width: 600px; height: 600px;
+ border: 1px solid rgba(201,169,110,0.08);
+ border-radius: 50%;
+ top: 50%; left: 50%;
+ transform: translate(-50%, -50%);
+ animation: pulse-ring 6s ease-in-out infinite;
+ }
+ .hero-ornament:nth-child(2) {
+ width: 800px; height: 800px;
+ border-color: rgba(201,169,110,0.04);
+ animation-delay: 2s;
+ }
+ .hero-ornament:nth-child(3) {
+ width: 1000px; height: 1000px;
+ border-color: rgba(201,169,110,0.02);
+ animation-delay: 4s;
+ }
+ @keyframes pulse-ring {
+ 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+ 50% { transform: translate(-50%, -50%) scale(1.04); opacity: 0.6; }
+ }
+ .hero-content { position: relative; z-index: 2; max-width: 800px; }
+ .hero-eyebrow {
+ font-size: 0.7rem;
+ font-weight: 400;
+ letter-spacing: 0.4em;
+ text-transform: uppercase;
+ color: var(--gold);
+ margin-bottom: 1.5rem;
+ opacity: 0;
+ animation: fade-up 1s 0.3s forwards;
+ }
+ .hero-title {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: clamp(3.5rem, 8vw, 7rem);
+ font-weight: 300;
+ line-height: 1.05;
+ letter-spacing: -0.01em;
+ color: var(--cream);
+ margin-bottom: 0.5rem;
+ opacity: 0;
+ animation: fade-up 1s 0.5s forwards;
+ }
+ .hero-title em {
+ font-style: italic;
+ color: var(--gold);
+ }
+ .hero-subtitle {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+ font-weight: 300;
+ font-style: italic;
+ color: var(--smoke);
+ margin-bottom: 3rem;
+ opacity: 0;
+ animation: fade-up 1s 0.7s forwards;
+ }
+ .hero-actions {
+ display: flex;
+ gap: 1.25rem;
+ justify-content: center;
+ flex-wrap: wrap;
+ opacity: 0;
+ animation: fade-up 1s 0.9s forwards;
+ }
+ .btn-primary {
+ padding: 1rem 2.5rem;
+ background: var(--gold);
+ color: var(--ink);
+ font-size: 0.72rem;
+ font-weight: 500;
+ letter-spacing: 0.15em;
+ text-transform: uppercase;
+ text-decoration: none;
+ transition: all 0.25s;
+ display: inline-block;
+ }
+ .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+ .btn-ghost {
+ padding: 1rem 2.5rem;
+ border: 1px solid rgba(201,169,110,0.4);
+ color: var(--cream-dark);
+ font-size: 0.72rem;
+ font-weight: 400;
+ letter-spacing: 0.15em;
+ text-transform: uppercase;
+ text-decoration: none;
+ transition: all 0.25s;
+ display: inline-block;
+ }
+ .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+ .hero-scroll {
+ position: absolute;
+ bottom: 2.5rem;
+ left: 50%;
+ transform: translateX(-50%);
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 8px;
+ opacity: 0;
+ animation: fade-up 1s 1.2s forwards;
+ }
+ .hero-scroll span { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--smoke); }
+ .scroll-line {
+ width: 1px;
+ height: 40px;
+ background: linear-gradient(to bottom, var(--gold), transparent);
+ animation: scroll-pulse 2s ease-in-out infinite;
+ }
+ @keyframes scroll-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+ @keyframes fade-up {
+ from { opacity: 0; transform: translateY(20px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+
+ /* ── SECTION GENERAL ── */
+ section { position: relative; }
+ .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+ .section-header { text-align: center; margin-bottom: 4rem; }
+ .section-eyebrow {
+ font-size: 0.65rem;
+ letter-spacing: 0.4em;
+ text-transform: uppercase;
+ color: var(--gold);
+ margin-bottom: 1rem;
+ display: block;
+ }
+ .section-title {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: clamp(2rem, 4vw, 3.5rem);
+ font-weight: 300;
+ line-height: 1.15;
+ color: var(--cream);
+ }
+ .section-title em { font-style: italic; color: var(--gold); }
+ .gold-line {
+ width: 60px; height: 1px;
+ background: var(--gold);
+ margin: 1.5rem auto 0;
+ opacity: 0.6;
+ }
+
+ /* ── WHY US ── */
+ .why { padding: 8rem 0; background: var(--ink-soft); }
+ .why-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+ gap: 2rem;
+ }
+ .why-card {
+ padding: 2.5rem 2rem;
+ border: 1px solid rgba(201,169,110,0.1);
+ position: relative;
+ overflow: hidden;
+ transition: border-color 0.3s;
+ }
+ .why-card::before {
+ content: '';
+ position: absolute;
+ top: 0; left: 0;
+ width: 2px; height: 0;
+ background: var(--gold);
+ transition: height 0.4s;
+ }
+ .why-card:hover { border-color: rgba(201,169,110,0.3); }
+ .why-card:hover::before { height: 100%; }
+ .why-icon {
+ font-size: 2rem;
+ margin-bottom: 1.25rem;
+ display: block;
+ }
+ .why-card h3 {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 1.35rem;
+ font-weight: 400;
+ color: var(--gold-light);
+ margin-bottom: 0.75rem;
+ }
+ .why-card p { font-size: 0.875rem; font-weight: 300; color: var(--smoke); line-height: 1.75; }
+
+ /* ── CATALOGUE ── */
+ .catalogue { padding: 8rem 0; }
+ .brand-tabs {
+ display: flex;
+ gap: 0;
+ flex-wrap: wrap;
+ margin-bottom: 3rem;
+ border-bottom: 1px solid rgba(201,169,110,0.15);
+ }
+ .brand-tab {
+ padding: 0.75rem 1.5rem;
+ font-size: 0.72rem;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ color: var(--smoke);
+ cursor: pointer;
+ border-bottom: 2px solid transparent;
+ margin-bottom: -1px;
+ transition: all 0.2s;
+ background: none;
+ border-top: none;
+ border-left: none;
+ border-right: none;
+ font-family: 'Jost', sans-serif;
+ }
+ .brand-tab:hover { color: var(--cream); }
+ .brand-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+ .perfume-panel { display: none; }
+ .perfume-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+ .perfume-card {
+ background: rgba(201,169,110,0.04);
+ border: 1px solid rgba(201,169,110,0.1);
+ padding: 1.75rem;
+ position: relative;
+ transition: all 0.3s;
+ cursor: pointer;
+ }
+ .perfume-img-wrap {
+ width: 100%;
+ aspect-ratio: 1 / 1;
+ overflow: hidden;
+ margin-bottom: 1rem;
+ background: rgba(201,169,110,0.04);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
+ .perfume-img-wrap img {
+ width: 100%;
+ height: 100%;
+ object-fit: contain;
+ transition: transform 0.4s;
+ }
+ .perfume-card:hover .perfume-img-wrap img {
+ transform: scale(1.05);
+ }
+ .perfume-card:hover {
+ background: rgba(201,169,110,0.08);
+ border-color: rgba(201,169,110,0.3);
+ transform: translateY(-3px);
+ }
+ .perfume-brand-badge {
+ font-size: 0.6rem;
+ letter-spacing: 0.25em;
+ text-transform: uppercase;
+ color: var(--gold);
+ opacity: 0.7;
+ margin-bottom: 0.5rem;
+ }
+ .perfume-name {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 1.2rem;
+ font-weight: 400;
+ color: var(--cream);
+ margin-bottom: 0.75rem;
+ line-height: 1.3;
+ }
+ .perfume-meta { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+ .pill {
+ font-size: 0.6rem;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ padding: 3px 10px;
+ border-radius: 20px;
+ font-weight: 500;
+ }
+ .pill-m { background: rgba(56,108,178,0.2); color: #7BA8E0; border: 1px solid rgba(56,108,178,0.3); }
+ .pill-f { background: rgba(200,80,130,0.18); color: #E89AB5; border: 1px solid rgba(200,80,130,0.25); }
+ .pill-u { background: rgba(80,180,120,0.15); color: #80CCA0; border: 1px solid rgba(80,180,120,0.25); }
+ .perfume-volume { font-size: 0.7rem; color: var(--smoke); }
+ .perfume-price {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 1.6rem;
+ font-weight: 300;
+ color: var(--gold);
+ }
+ .perfume-price span { font-size: 0.9rem; margin-right: 2px; }
+ .btn-comprar {
+ margin-top: 1rem;
+ width: 100%;
+ padding: 0.65rem;
+ background: transparent;
+ border: 1px solid rgba(201,169,110,0.3);
+ color: var(--gold);
+ font-size: 0.68rem;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ cursor: pointer;
+ font-family: 'Jost', sans-serif;
+ transition: all 0.25s;
+ }
+ .btn-comprar:hover { background: var(--gold); color: var(--ink); }
+
+ /* ── FEATURED ── */
+ .featured { padding: 6rem 0; background: var(--ink-soft); }
+ .featured-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: rgba(201,169,110,0.1); }
+ .featured-item {
+ padding: 3rem 2.5rem;
+ background: var(--ink-soft);
+ text-align: center;
+ transition: background 0.3s;
+ }
+ .featured-item:hover { background: rgba(201,169,110,0.05); }
+ .featured-num {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 4rem;
+ font-weight: 300;
+ color: rgba(201,169,110,0.15);
+ line-height: 1;
+ margin-bottom: 1rem;
+ }
+ .featured-item h3 {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 1.35rem;
+ font-weight: 400;
+ color: var(--cream);
+ margin-bottom: 0.5rem;
+ }
+ .featured-item p { font-size: 0.8rem; color: var(--smoke); line-height: 1.65; margin-bottom: 1rem; }
+ .featured-price { font-size: 0.85rem; color: var(--gold); letter-spacing: 0.05em; }
+
+ /* ── DUPE SECTION ── */
+ .dupes { padding: 8rem 0; }
+ .dupe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+ .dupe-card {
+ border: 1px solid rgba(201,169,110,0.12);
+ padding: 2rem;
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+ }
+ .dupe-row { display: flex; align-items: center; gap: 1rem; }
+ .dupe-vs {
+ width: 36px; height: 36px;
+ border-radius: 50%;
+ background: rgba(201,169,110,0.1);
+ border: 1px solid rgba(201,169,110,0.25);
+ display: flex; align-items: center; justify-content: center;
+ font-size: 0.65rem;
+ letter-spacing: 0.05em;
+ color: var(--gold);
+ flex-shrink: 0;
+ }
+ .dupe-them { flex: 1; }
+ .dupe-them .label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--smoke); margin-bottom: 3px; }
+ .dupe-them .name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); }
+ .dupe-them .price-them { font-size: 0.75rem; color: #E87070; text-decoration: line-through; }
+ .dupe-them .price-us { font-size: 0.75rem; color: var(--gold); }
+ .dupe-saving {
+ font-size: 0.68rem;
+ letter-spacing: 0.1em;
+ color: #80CCA0;
+ padding: 4px 10px;
+ background: rgba(80,180,120,0.1);
+ border: 1px solid rgba(80,180,120,0.2);
+ border-radius: 20px;
+ align-self: flex-start;
+ }
+
+ /* ── TESTIMONIALS ── */
+ .testimonials { padding: 8rem 0; background: var(--ink-soft); }
+ .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+ .testi-card {
+ padding: 2rem;
+ border: 1px solid rgba(201,169,110,0.1);
+ position: relative;
+ }
+ .testi-quote {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 4rem;
+ color: rgba(201,169,110,0.15);
+ line-height: 0.5;
+ margin-bottom: 1rem;
+ display: block;
+ }
+ .testi-text {
+ font-size: 0.875rem;
+ font-weight: 300;
+ color: var(--cream-dark);
+ line-height: 1.75;
+ margin-bottom: 1.5rem;
+ font-style: italic;
+ }
+ .testi-author { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+ .testi-stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 1rem; }
+
+ /* ── CONTACT ── */
+ .contact { padding: 8rem 0; }
+ .contact-inner {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 6rem;
+ align-items: start;
+ }
+ .contact-left h2 {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: clamp(2rem, 4vw, 3rem);
+ font-weight: 300;
+ color: var(--cream);
+ margin-bottom: 1.5rem;
+ line-height: 1.2;
+ }
+ .contact-left h2 em { font-style: italic; color: var(--gold); }
+ .contact-left p { font-size: 0.875rem; font-weight: 300; color: var(--smoke); line-height: 1.75; margin-bottom: 2rem; }
+ .contact-items { display: flex; flex-direction: column; gap: 1.25rem; }
+ .contact-item { display: flex; align-items: center; gap: 1rem; }
+ .contact-item-icon {
+ width: 42px; height: 42px;
+ border: 1px solid rgba(201,169,110,0.25);
+ display: flex; align-items: center; justify-content: center;
+ font-size: 1.1rem;
+ flex-shrink: 0;
+ }
+ .contact-item-text { font-size: 0.85rem; color: var(--cream-dark); }
+ .contact-item-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--smoke); margin-bottom: 2px; }
+ .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+ .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+ .form-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--smoke); }
+ .form-input, .form-select, .form-textarea {
+ background: rgba(255,255,255,0.04);
+ border: 1px solid rgba(201,169,110,0.15);
+ color: var(--cream);
+ padding: 0.85rem 1rem;
+ font-size: 0.875rem;
+ font-family: 'Jost', sans-serif;
+ font-weight: 300;
+ transition: border-color 0.2s;
+ width: 100%;
+ outline: none;
+ -webkit-appearance: none;
+ }
+ .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: rgba(201,169,110,0.5); }
+ .form-input::placeholder, .form-textarea::placeholder { color: var(--smoke); opacity: 0.6; }
+ .form-select option { background: var(--ink-soft); color: var(--cream); }
+ .form-textarea { resize: vertical; min-height: 110px; }
+ .btn-send {
+ padding: 1rem;
+ background: var(--gold);
+ color: var(--ink);
+ font-size: 0.72rem;
+ font-weight: 500;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ border: none;
+ cursor: pointer;
+ font-family: 'Jost', sans-serif;
+ transition: all 0.25s;
+ margin-top: 0.5rem;
+ }
+ .btn-send:hover { background: var(--gold-light); }
+
+ /* ── FOOTER ── */
+ footer {
+ padding: 3rem 0;
+ border-top: 1px solid rgba(201,169,110,0.1);
+ text-align: center;
+ }
+ .footer-logo {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 1.75rem;
+ font-weight: 300;
+ color: var(--gold);
+ letter-spacing: 0.15em;
+ margin-bottom: 1rem;
+ }
+ .footer-tagline {
+ font-size: 0.75rem;
+ color: var(--smoke);
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ margin-bottom: 2rem;
+ }
+ .footer-nav { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+ .footer-nav a { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--smoke); text-decoration: none; transition: color 0.2s; }
+ .footer-nav a:hover { color: var(--gold); }
+ .footer-bottom { font-size: 0.72rem; color: rgba(138,128,112,0.5); }
+
+ /* ── FLOATING WA ── */
+ .wa-float {
+ position: fixed;
+ bottom: 2rem;
+ right: 2rem;
+ z-index: 999;
+ width: 56px; height: 56px;
+ border-radius: 50%;
+ background: #25D366;
+ display: flex; align-items: center; justify-content: center;
+ text-decoration: none;
+ box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+ transition: transform 0.25s, box-shadow 0.25s;
+ }
+ .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+ .wa-float svg { width: 28px; height: 28px; fill: white; }
+
+ /* ── MODAL ── */
+ .modal-overlay {
+ position: fixed;
+ inset: 0;
+ background: rgba(13,12,10,0.92);
+ z-index: 500;
+ display: none;
+ align-items: center;
+ justify-content: center;
+ padding: 2rem;
+ }
+ .modal-overlay.open { display: flex; }
+ .modal {
+ background: var(--ink-soft);
+ border: 1px solid rgba(201,169,110,0.2);
+ max-width: 480px;
+ width: 100%;
+ padding: 3rem;
+ position: relative;
+ animation: fade-up 0.3s ease;
+ }
+ .modal-close {
+ position: absolute;
+ top: 1.25rem; right: 1.25rem;
+ font-size: 1.2rem;
+ color: var(--smoke);
+ cursor: pointer;
+ background: none;
+ border: none;
+ transition: color 0.2s;
+ }
+ .modal-close:hover { color: var(--cream); }
+ .modal-eyebrow { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+ .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 300; color: var(--cream); margin-bottom: 0.5rem; }
+ .modal-price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--gold); margin-bottom: 1.5rem; }
+ .modal-detail { font-size: 0.825rem; color: var(--smoke); line-height: 1.75; margin-bottom: 1.5rem; }
+ .modal-wa {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.75rem;
+ padding: 1rem;
+ background: #25D366;
+ color: white;
+ font-size: 0.75rem;
+ font-weight: 500;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ text-decoration: none;
+ transition: background 0.2s;
+ }
+ .modal-wa:hover { background: #1fbc5a; }
+
+ /* ── RESPONSIVE ── */
+ @media (max-width: 900px) {
+ nav { padding: 1rem 1.5rem; }
+ .nav-links, .nav-cta { display: none; }
+ .nav-burger { display: flex; }
+ .featured-grid { grid-template-columns: 1fr; }
+ .dupe-grid { grid-template-columns: 1fr; }
+ .testi-grid { grid-template-columns: 1fr; }
+ .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+ .brand-tabs { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 0; }
+ }
+ @media (max-width: 600px) {
+ .hero-title { font-size: 3rem; }
+ .perfume-panel.active { grid-template-columns: 1fr; }
+ }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+ <a href="#" class="nav-logo"><img src="imagenes/logo-jbparfums.png" alt="JB Parfums" style="height:48px;width:48px;border-radius:50%;object-fit:cover;margin-right:0.6rem;vertical-align:middle;">jbparfums</a>
+ <ul class="nav-links">
+ <li><a href="#catalogo">Catálogo</a></li>
+ <li><a href="#populares">Populares</a></li>
+ <li><a href="#dupes">Comparación</a></li>
+ <li><a href="#contacto">Contacto</a></li>
+ </ul>
+ <a href="https://wa.me/5491172393237" target="_blank" class="nav-cta">Consultar por WhatsApp</a>
+ <div class="nav-burger" onclick="toggleMenu()">
+ <span></span><span></span><span></span>
+ </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+ <div class="hero-bg"></div>
+ <div class="hero-ornament"></div>
+ <div class="hero-ornament"></div>
+ <div class="hero-ornament"></div>
+ <div class="hero-content">
+ <div style="margin-bottom:1.5rem;"><img src="imagenes/logo-jbparfums.png" alt="JB Parfums" style="width:130px;height:130px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);box-shadow:0 0 30px rgba(201,169,110,0.3);"></div>
+ <p class="hero-eyebrow">Perfumes Árabes Auténticos — Argentina</p>
+ <h1 class="hero-title">jb<em>parfums</em></h1>
+ <p class="hero-subtitle">Fragancias de Al Haramain, Lattafa, Armaf, Rasasi y más</p>
+ <div class="hero-actions">
+ <a href="#catalogo" class="btn-primary">Ver Catálogo</a>
+ <a href="https://wa.me/5491172393237" target="_blank" class="btn-ghost">Consultar por WhatsApp</a>
+ </div>
+ </div>
+ <div class="hero-scroll">
+ <div class="scroll-line"></div>
+ <span>Explorar</span>
+ </div>
+</section>
+
+<!-- WHY US -->
+<section class="why">
+ <div class="container">
+ <div class="section-header">
+ <span class="section-eyebrow">¿Por qué elegirnos?</span>
+ <h2 class="section-title">Fragancias que el mundo árabe<br><em>lleva siglos perfeccionando</em></h2>
+ <div class="gold-line"></div>
+ </div>
+ <div class="why-grid">
+ <div class="why-card">
+ <span class="why-icon"></span>
+ <h3>Marcas de culto internacional</h3>
+ <p>Al Haramain, Lattafa, Armaf, Rasasi, Afnan — marcas que no encontrás en ningún shopping argentino pero son icónicas en todo el mundo.</p>
+ </div>
+ <div class="why-card">
+ <span class="why-icon"></span>
+ <h3>Duración excepcional</h3>
+ <p>Los perfumes árabes tienen mayor concentración de aceites esenciales. Duran entre 10 y 18 horas. Una sola aplicación para todo el día.</p>
+ </div>
+ <div class="why-card">
+ <span class="why-icon"></span>
+ <h3>Precio accesible para un lujo real</h3>
+ <p>Fragancias comparables con Creed, Tom Ford y Chanel. Desde $48.000. Sin pagar por el logo, solo por la fragancia.</p>
+ </div>
+ <div class="why-card">
+ <span class="why-icon"></span>
+ <h3>Envíos por la zona</h3>
+ <p>Realizamos envíos a Barracas, Avellaneda, Puerto Madero, San Telmo y alrededores. Embalaje premium, cuidado en cada detalle.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- CATALOGUE -->
+<section class="catalogue" id="catalogo">
+ <div class="container">
+ <div class="section-header">
+ <span class="section-eyebrow">Colección completa</span>
+ <h2 class="section-title">Nuestro <em>catálogo</em></h2>
+ <div class="gold-line"></div>
+ </div>
+ <div class="brand-tabs">
+ <button class="brand-tab active" onclick="showBrand('all', this)">Todos</button>
+ <button class="brand-tab" onclick="showBrand('alharamain', this)">Al Haramain</button>
+ <button class="brand-tab" onclick="showBrand('bharara', this)">Bharara</button>
+ <button class="brand-tab" onclick="showBrand('armaf', this)">Armaf</button>
+ <button class="brand-tab" onclick="showBrand('lattafa', this)">Lattafa</button>
+ <button class="brand-tab" onclick="showBrand('afnan', this)">Afnan</button>
+ <button class="brand-tab" onclick="showBrand('rasasi', this)">Rasasi</button>
+ <button class="brand-tab" onclick="showBrand('frenchavenue', this)">French Avenue</button>
+ </div>
+
+ <div id="panel-all" class="perfume-panel active"></div>
+ <div id="panel-alharamain" class="perfume-panel"></div>
+ <div id="panel-bharara" class="perfume-panel"></div>
+ <div id="panel-armaf" class="perfume-panel"></div>
+ <div id="panel-lattafa" class="perfume-panel"></div>
+ <div id="panel-afnan" class="perfume-panel"></div>
+ <div id="panel-rasasi" class="perfume-panel"></div>
+ <div id="panel-frenchavenue" class="perfume-panel"></div>
+ </div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured" id="populares">
+ <div class="container">
+ <div class="section-header">
+ <span class="section-eyebrow">Los más pedidos</span>
+ <h2 class="section-title">Top 3 de la <em>semana</em></h2>
+ <div class="gold-line"></div>
+ </div>
+ <div class="featured-grid">
+ <div class="featured-item">
+ <div class="featured-num">01</div>
+ <h3>Club de Nuit Intense Man</h3>
+ <p>La alternativa árabe al Bleu de Chanel. Madera, musk y especias. El más vendido entre hombres 25–40.</p>
+ <div class="featured-price">$67.000 · 105ml · Armaf</div>
+ <a href="https://wa.me/5491172393237?text=Quiero%20el%20Club%20de%20Nuit%20Intense%20Man" target="_blank" class="btn-comprar" style="display:inline-block;text-align:center;margin-top:1rem;padding:0.65rem 1.5rem;border:1px solid rgba(201,169,110,0.3);color:var(--gold);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all 0.25s;background:transparent;font-family:'Jost',sans-serif;">Consultar</a>
+ </div>
+ <div class="featured-item">
+ <div class="featured-num">02</div>
+ <h3>Khamrah Qahwa</h3>
+ <p>Café, especias y oud. Un perfume que envuelve. Unisex, ideal para quienes buscan algo diferente y memorable.</p>
+ <div class="featured-price">$55.000 · 100ml · Lattafa</div>
+ <a href="https://wa.me/5491172393237?text=Quiero%20el%20Khamrah%20Qahwa" target="_blank" class="btn-comprar" style="display:inline-block;text-align:center;margin-top:1rem;padding:0.65rem 1.5rem;border:1px solid rgba(201,169,110,0.3);color:var(--gold);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all 0.25s;background:transparent;font-family:'Jost',sans-serif;">Consultar</a>
+ </div>
+ <div class="featured-item">
+ <div class="featured-num">03</div>
+ <h3>Hawas Ice EDP</h3>
+ <p>Fresco, intenso y masculino. Rasasi es la marca premium árabe por excelencia. Un clásico para el verano.</p>
+ <div class="featured-price">$88.000 · 100ml · Rasasi</div>
+ <a href="https://wa.me/5491172393237?text=Quiero%20el%20Hawas%20Ice%20EDP" target="_blank" class="btn-comprar" style="display:inline-block;text-align:center;margin-top:1rem;padding:0.65rem 1.5rem;border:1px solid rgba(201,169,110,0.3);color:var(--gold);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all 0.25s;background:transparent;font-family:'Jost',sans-serif;">Consultar</a>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- DUPES -->
+<section class="dupes" id="dupes">
+ <div class="container">
+ <div class="section-header">
+ <span class="section-eyebrow">¿Por qué pagar de más?</span>
+ <h2 class="section-title">Misma fragancia,<br><em>precio diferente</em></h2>
+ <div class="gold-line"></div>
+ </div>
+ <div class="dupe-grid">
+ <div class="dupe-card">
+ <div class="dupe-row">
+ <div class="dupe-them">
+ <div class="label">Alternativa árabe</div>
+ <div class="name">Club de Nuit Intense — Armaf</div>
+ <div class="price-us">$67.000 ARS</div>
+ </div>
+ <div class="dupe-vs">VS</div>
+ <div class="dupe-them">
+ <div class="label">Equivalente europeo</div>
+ <div class="name">Bleu de Chanel EDP</div>
+ <div class="price-them">~$380.000 ARS</div>
+ </div>
+ </div>
+ <div class="dupe-saving">Ahorrás ~82%</div>
+ </div>
+ <div class="dupe-card">
+ <div class="dupe-row">
+ <div class="dupe-them">
+ <div class="label">Alternativa árabe</div>
+ <div class="name">Asad Bourbon — Lattafa</div>
+ <div class="price-us">$66.000 ARS</div>
+ </div>
+ <div class="dupe-vs">VS</div>
+ <div class="dupe-them">
+ <div class="label">Equivalente europeo</div>
+ <div class="name">Creed Aventus</div>
+ <div class="price-them">~$700.000 ARS</div>
+ </div>
+ </div>
+ <div class="dupe-saving">Ahorrás ~91%</div>
+ </div>
+ <div class="dupe-card">
+ <div class="dupe-row">
+ <div class="dupe-them">
+ <div class="label">Alternativa árabe</div>
+ <div class="name">Hawas Him — Rasasi</div>
+ <div class="price-us">$64.000 ARS</div>
+ </div>
+ <div class="dupe-vs">VS</div>
+ <div class="dupe-them">
+ <div class="label">Equivalente europeo</div>
+ <div class="name">Acqua di Gio Profumo</div>
+ <div class="price-them">~$320.000 ARS</div>
+ </div>
+ </div>
+ <div class="dupe-saving">Ahorrás ~80%</div>
+ </div>
+ <div class="dupe-card">
+ <div class="dupe-row">
+ <div class="dupe-them">
+ <div class="label">Alternativa árabe</div>
+ <div class="name">Amber Oud Aqua — Al Haramain</div>
+ <div class="price-us">$95.000 ARS</div>
+ </div>
+ <div class="dupe-vs">VS</div>
+ <div class="dupe-them">
+ <div class="label">Equivalente europeo</div>
+ <div class="name">Tom Ford Oud Wood</div>
+ <div class="price-them">~$850.000 ARS</div>
+ </div>
+ </div>
+ <div class="dupe-saving">Ahorrás ~89%</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- TESTIMONIALS -->
+
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+ <div class="container">
+ <div class="contact-inner">
+ <div class="contact-left">
+ <div style="text-align:center;margin-bottom:1.5rem;"><img src="imagenes/logo-jbparfums.png" alt="jbparfums" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,169,110,0.5);box-shadow:0 0 20px rgba(201,169,110,0.2);"></div>
+ <h2>¿No sabés qué elegir?<br><em>Te ayudamos</em></h2>
+ <p>Contanos qué tipo de fragancia te gusta, para qué ocasión lo querés o cuánto querés gastar. Te recomendamos el perfecto para vos.</p>
+ <div class="contact-items">
+ <div class="contact-item">
+ <div class="contact-item-icon"></div>
+ <div class="contact-item-text">
+ <div class="contact-item-label">WhatsApp</div>
+ +54 11-7239-3237
+ </div>
+ </div>
+ <div class="contact-item">
+ <div class="contact-item-icon"></div>
+ <div class="contact-item-text">
+ <div class="contact-item-label">Envíos</div>
+ Barracas · Avellaneda · Puerto Madero · San Telmo y alrededores
+ </div>
+ </div>
+ <div class="contact-item">
+ <div class="contact-item-icon"></div>
+ <div class="contact-item-text">
+ <div class="contact-item-label">Medios de pago</div>
+ Transferencia · Mercado Pago · Efectivo
+ </div>
+ </div>
+ </div>
+ </div>
+ <div>
+ <form class="contact-form" onsubmit="enviarConsulta(event)">
+ <div class="form-group">
+ <label class="form-label">Tu nombre</label>
+ <input type="text" id="cf-name" class="form-input" placeholder="Juan Pérez" required>
+ </div>
+ <div class="form-group">
+ <label class="form-label">WhatsApp o email</label>
+ <input type="text" id="cf-contact" class="form-input" placeholder="+54 11..." required>
+ </div>
+ <div class="form-group">
+ <label class="form-label">¿Qué estás buscando?</label>
+ <select id="cf-tipo" class="form-select">
+ <option value="">Seleccioná una opción</option>
+ <option value="masculino">Perfume masculino</option>
+ <option value="femenino">Perfume femenino</option>
+ <option value="unisex">Perfume unisex</option>
+ <option value="regalo">Un regalo especial</option>
+ <option value="no_se">No sé, necesito ayuda</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label class="form-label">Mensaje (opcional)</label>
+ <textarea id="cf-msg" class="form-textarea" placeholder="Contanos qué fragrancias te gustan, para qué ocasión..."></textarea>
+ </div>
+ <button type="submit" class="btn-send">Enviar consulta por WhatsApp →</button>
+ </form>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="container">
+ <div class="footer-logo"><img src="imagenes/logo-jbparfums.png" alt="JB Parfums" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:1px solid rgba(201,169,110,0.4);margin-bottom:0.75rem;display:block;margin-left:auto;margin-right:auto;"><span>jbparfums</span></div>
+ <p class="footer-tagline">El lujo árabe, ahora en tu piel</p>
+ <nav class="footer-nav">
+ <a href="#catalogo">Catálogo</a>
+ <a href="#populares">Los más vendidos</a>
+ <a href="#dupes">¿Por qué árabes?</a>
+ <a href="#contacto">Contacto</a>
+ <a href="https://wa.me/5491172393237" target="_blank">WhatsApp</a>
+ </nav>
+ <p class="footer-bottom">© 2025 JB Parfums · Perfumes Árabes Auténticos · Argentina · Precios sujetos a disponibilidad de stock</p>
+ </div>
+</footer>
+
+<!-- FLOATING WA -->
+<a href="https://wa.me/5491172393237" class="wa-float" target="_blank" aria-label="WhatsApp">
+ <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+ <div class="modal">
+ <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')"></button>
+ <div class="modal-eyebrow" id="modal-brand"></div>
+ <div class="modal-title" id="modal-name"></div>
+ <div class="modal-price" id="modal-price"></div>
+ <div class="modal-detail" id="modal-detail"></div>
+ <a href="#" id="modal-wa" class="modal-wa" target="_blank">
+ <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+ Quiero este perfume
+ </a>
+ </div>
+</div>
+
+<script>
+const perfumes = [
+ { brand: 'alharamain', brandName: 'Al Haramain', name: 'Amber Oud Aqua Dubai', image: 'AmberOudaquadubai.jpg', ml: 100, price: 95000, gender: 'u', notes: 'Oud acuático, almizcle marino, madera de sándalo. El más sofisticado de la colección Amber Oud.' },
+ { brand: 'alharamain', brandName: 'Al Haramain', name: 'Amber Oud Gold Edition', image: 'alharamain.jpg', ml: 120, price: 90000, gender: 'u', notes: 'Oud dorado, vainilla, especias orientales. 120ml de lujo puro árabe.' },
+ { brand: 'bharara', brandName: 'Bharara', name: 'Bharara King EDP', image: 'Bharara_King_EDP.jpg', ml: 100, price: 100000, gender: 'm', notes: 'Fragancia amaderada especiada. Notas de bergamota, cedro y almizcle. Para el hombre que no pasa desapercibido.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Club de Nuit Intense Man', image: 'Club_de_Nuit_Intense_Man.jpg', ml: 105, price: 67000, gender: 'm', notes: 'El clon más famoso del Bleu de Chanel. Bergamota, manzana, madera de abedul, almizcle. Dura todo el día.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Club de Nuit Urban Elixir', image: 'Club_de_Nuit_Urban_Elixir.jpg', ml: 105, price: 74000, gender: 'm', notes: 'Versión más oscura e intensa. Especias, madera, oud y cuero. Para noches especiales.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Club de Nuit Iconic Blue EDP', image: 'Club_de_Nuit_Iconic_Blue_EDP.jpg', ml: 105, price: 76000, gender: 'm', notes: 'Fresco y marino con fondo amaderado. Perfecto para el día a día y la oficina.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Club de Nuit Woman EDP', image: 'Club_de_Nuit_Woman_EDP.jpg', ml: 105, price: 66500, gender: 'f', notes: 'Floral afrutado con fondo de almizcle y madera. La versión femenina del icónico Club de Nuit.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Odyssey Mandarin EDP', image: 'Odyssey_Mandarin_EDP.jpg', ml: 100, price: 65000, gender: 'm', notes: 'Mandarina fresca, especias cálidas y base amaderada. Fresco pero con carácter.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Asad EDP', image: 'AsadEDP.jpg', ml: 100, price: 60000, gender: 'm', notes: 'Amaderado especiado con notas de bergamota y almizcle. Un clásico oriental masculino.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Asad Bourbon EDP', image: 'AsadBourbonEDP.jpg', ml: 100, price: 66000, gender: 'm', notes: 'Versión más rica y cremosa. Bourbon, vainilla, madera. Comparado con Creed Aventus.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Haya', image: 'Haya.jpg', ml: 100, price: 60000, gender: 'f', notes: 'Floral frutal con fresas, rosa y almizcle blanco. Fresco y femenino para todo el día.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Yara Moi EDP', image: 'Yara_Moi_EDP.jpg', ml: 100, price: 55000, gender: 'f', notes: 'Floral gourmand. Pera, jazmín, vainilla y almizcle. Dulce y adictivo.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Yara Pink EDP', image: 'Yara_Pink_EDP.jpg', ml: 100, price: 55400, gender: 'f', notes: 'Frambuesa, rosa y almizcle. Fresco, suave y muy femenino.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Yara Candy EDP Fem', image: 'Yara_Candy_EDP.jpg', ml: 100, price: 55000, gender: 'f', notes: 'Dulce e irresistible. Frutas del bosque, caramelo y sándalo.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Badee Al Oud Amethyst', image: 'Badee_Al_Oud_Amethyst.jpg', ml: 100, price: 60000, gender: 'u', notes: 'Oud suave con notas florales y almizcle. Una de las mejores relaciones precio/calidad del catálogo.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Badee Al Oud Sublime', image: 'Badee_Al_Oud_Sublime.jpg', ml: 100, price: 60000, gender: 'u', notes: 'Oud profundo con especias y madera. Oriental puro.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Badee Al Oud Noble Blush', image: 'Badee_Al_Oud_Noble_Blush.jpg', ml: 100, price: 60000, gender: 'u', notes: 'Rosa, oud y almizcle. Versión más suave y femenina de la colección Badee.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Badee Al Oud For Glory', image: 'Badee_Al_Oud_For_Glory.jpg', ml: 100, price: 60000, gender: 'm', notes: 'Cuero, especias oscuras y oud. Para los que quieren proyección máxima.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Badee Al Oud Honor & Glory', image: 'Badee_Al_Oud_Honor_Glory.jpg', ml: 100, price: 60000, gender: 'u', notes: 'Equilibrado entre lo dulce y lo amaderado. Unisex versátil para cualquier ocasión.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Fakhar Hombre EDP', image: 'Fakhar_Hombre_EDP.jpg', ml: 100, price: 60000, gender: 'm', notes: 'Fresco especiado con bergamota, cardamomo y cedro. Elegante y masculino.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Fakhar Woman Rose EDP', image: 'Fakhar_Woman_Rose_EDP.jpg', ml: 100, price: 60000, gender: 'f', notes: 'Rosa, lichi y almizcle. Una versión femenina romántica y duradera.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Mayar Cherry', image: 'Mayar_Cherry.jpg', ml: 100, price: 54000, gender: 'f', notes: 'Cereza, flor de cerezo y almizcle. Dulce, fresco y primaveral.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Mayar', image: 'Mayar.jpg', ml: 100, price: 60000, gender: 'f', notes: 'Floral amaderado. Rosa, jazmín y sándalo. Clásico femenino oriental.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'The Kingdom', image: 'The_Kingdom.jpg', ml: 100, price: 66000, gender: 'm', notes: 'Amaderado intenso con especias orientales. Un perfume con presencia real.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Khamrah Qahwa', image: 'Khamrah_Qahwa.jpg', ml: 100, price: 55000, gender: 'u', notes: 'Café arábigo, especias y oud. Un viaje sensorial a los zocos de Medio Oriente. Uno de los favoritos del catálogo.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Khamrah', image: 'Khamrah.jpg', ml: 100, price: 55000, gender: 'u', notes: 'Rum, caramelo, especias y madera. Cálido, envolvente y adictivo.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'His Confession', image: 'His_Confession.jpg', ml: 100, price: 67000, gender: 'm', notes: 'Bergamota, violeta, cuero y almizcle. Sofisticado y masculino.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Her Confession', image: 'Her_Confession.jpg', ml: 100, price: 70000, gender: 'f', notes: 'Frutas, rosa, sándalo y vainilla. La pareja perfecta de His Confession.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Eclaire', image: 'Eclaire.jpg', ml: 100, price: 70000, gender: 'f', notes: 'Vainilla, sándalo y flores blancas. Dulce y elegante, perfecto para la noche.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Confidential', image: 'Confidential.jpg', ml: 100, price: 50000, gender: 'u', notes: 'Fresco, limpio y discreto. Ideal para la oficina o el día a día.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Hayaati EDP', image: 'Hayaati_EDP.jpg', ml: 100, price: 50000, gender: 'm', notes: 'El más accesible del catálogo. Fresco especiado con gran proyección para el precio.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Atlas EDP', image: 'Atlas_EDP.jpg', ml: 100, price: 70100, gender: 'u', notes: 'Oud, sándalo y especias. Un orientale complejo y sofisticado.' },
+ { brand: 'afnan', brandName: 'Afnan', name: '9PM Black Men EDP', image: '9PMBlackMenEDP.jpg', ml: 100, price: 64000, gender: 'm', notes: 'Intenso y seductor para la noche. Lavanda, vainilla negra y madera de cachemira.' },
+ { brand: 'afnan', brandName: 'Afnan', name: '9AM Dive EDP', image: '9AMDiveEDP.jpg', ml: 100, price: 70000, gender: 'u', notes: 'Fresco acuático con notas de té, algas y almizcle marino. Para los días de calor.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Him', image: 'Hawas_Him.jpg', ml: 100, price: 64000, gender: 'm', notes: 'Cítrico fresco con corazón de flores y base de madera. El bestseller masculino de Rasasi.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Ice EDP', image: 'Hawas_Ice_EDP.jpg', ml: 100, price: 88000, gender: 'm', notes: 'Versión glacial y ultra fresca del Hawas. Menta ártica, algas y madera fría. Proyección excepcional.' },
+ { brand: 'frenchavenue', brandName: 'French Avenue', name: 'Liquid Brun', image: 'Liquid_Brun.jpg', ml: 100, price: 84000, gender: 'u', notes: 'Café, chocolate y especias. Un gourmand oriental de alto nivel. Para los amantes de lo diferente.' },
+ { brand: 'frenchavenue', brandName: 'French Avenue', name: 'Vulcan Feu', image: 'Vulcan_Feu.jpg', ml: 100, price: 88000, gender: 'u', notes: 'Especias ardientes, oud y cuero. Intenso, potente, memorable. No para los tímidos.' },
+];
+
+function fmtPrice(p) {
+ return '$' + p.toLocaleString('es-AR');
+}
+function genderPill(g) {
+ if (g === 'm') return '<span class="pill pill-m">Masculino</span>';
+ if (g === 'f') return '<span class="pill pill-f">Femenino</span>';
+ return '<span class="pill pill-u">Unisex</span>';
+}
+
+function buildCards(list, containerId) {
+ const c = document.getElementById(containerId);
+ if (!c) return;
+ c.innerHTML = list.map(p => {
+ const imgHtml = p.image ? `<div class="perfume-img-wrap"><img src="imagenes/${p.image}" alt="${p.name}" loading="lazy"></div>` : '';
+ const safeName = p.name.replace(/'/g, "\'");
+ const safeNotes = p.notes.replace(/'/g, "\'");
+ return `<div class="perfume-card" onclick="openModal('${safeName}','${p.brandName}','${fmtPrice(p.price)}','${p.ml}ml · ${p.brandName}','${safeNotes}')">
+ ${imgHtml}
+ <div class="perfume-brand-badge">${p.brandName}</div>
+ <div class="perfume-name">${p.name}</div>
+ <div class="perfume-meta">${genderPill(p.gender)}<span class="perfume-volume">${p.ml}ml</span></div>
+ <div class="perfume-price"><span>$</span>${p.price.toLocaleString('es-AR')}</div>
+ <button class="btn-comprar">Consultar precio →</button>
+ </div>`;
+ }).join('');
+}
+
+buildCards(perfumes, 'panel-all');
+['alharamain','bharara','armaf','lattafa','afnan','rasasi','frenchavenue'].forEach(b => {
+ buildCards(perfumes.filter(p => p.brand === b), 'panel-' + b);
+});
+
+function showBrand(brand, btn) {
+ document.querySelectorAll('.perfume-panel').forEach(p => p.classList.remove('active'));
+ document.querySelectorAll('.brand-tab').forEach(b => b.classList.remove('active'));
+ document.getElementById('panel-' + brand).classList.add('active');
+ btn.classList.add('active');
+}
+
+function openModal(name, brand, price, detail, notes) {
+ document.getElementById('modal-brand').textContent = brand;
+ document.getElementById('modal-name').textContent = name;
+ document.getElementById('modal-price').textContent = price;
+ document.getElementById('modal-detail').textContent = detail + ' — ' + notes;
+ const msg = encodeURIComponent('Hola! Quiero consultar sobre el ' + name + ' (' + price + ')');
+ document.getElementById('modal-wa').href = 'https://wa.me/5491172393237?text=' + msg;
+ document.getElementById('modal').classList.add('open');
+}
+function closeModal(e) {
+ if (e.target === document.getElementById('modal')) document.getElementById('modal').classList.remove('open');
+}
+
+function enviarConsulta(e) {
+ e.preventDefault();
+ const name = document.getElementById('cf-name').value;
+ const contact = document.getElementById('cf-contact').value;
+ const tipo = document.getElementById('cf-tipo').value;
+ const msg = document.getElementById('cf-msg').value;
+ const text = `Hola! Me llamo ${name}.\nContacto: ${contact}\nBusco: ${tipo || 'No especificado'}\n${msg ? 'Mensaje: ' + msg : ''}`;
+ window.open('https://wa.me/5491172393237?text=' + encodeURIComponent(text), '_blank');
+}
+
+function toggleMenu() {
+ const links = document.querySelector('.nav-links');
+ const cta = document.querySelector('.nav-cta');
+ if (links) {
+ const vis = links.style.display === 'flex';
+ links.style.display = vis ? 'none' : 'flex';
+ links.style.flexDirection = 'column';
+ links.style.position = 'absolute';
+ links.style.top = '70px';
+ links.style.left = '0';
+ links.style.right = '0';
+ links.style.background = 'rgba(13,12,10,0.98)';
+ links.style.padding = '1.5rem 2rem';
+ links.style.gap = '1.25rem';
+ }
+}
+</script>
+</body>
+</html>
