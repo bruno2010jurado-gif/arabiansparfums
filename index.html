@@ -85,6 +85,98 @@
  .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
  .nav-burger span { width: 24px; height: 1px; background: var(--cream); transition: all 0.3s; }
 
+ /* ── SEARCH ── */
+ .search-wrapper {
+ position: relative;
+ display: flex;
+ align-items: center;
+ margin-right: 1rem;
+ }
+ .search-toggle-btn {
+ background: none;
+ border: none;
+ cursor: pointer;
+ color: var(--cream-dark);
+ padding: 0.4rem;
+ display: flex;
+ align-items: center;
+ transition: color 0.2s;
+ }
+ .search-toggle-btn:hover { color: var(--gold); }
+ .search-toggle-btn svg { width: 20px; height: 20px; }
+ .search-box {
+ position: absolute;
+ top: 50%;
+ right: 2.5rem;
+ transform: translateY(-50%);
+ width: 0;
+ overflow: hidden;
+ transition: width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
+ opacity: 0;
+ pointer-events: none;
+ }
+ .search-box.open {
+ width: 260px;
+ opacity: 1;
+ pointer-events: all;
+ }
+ .search-box input {
+ width: 100%;
+ background: rgba(13,12,10,0.92);
+ border: 1px solid rgba(201,169,110,0.4);
+ color: var(--cream);
+ padding: 0.5rem 1rem;
+ font-family: 'Jost', sans-serif;
+ font-size: 0.82rem;
+ letter-spacing: 0.06em;
+ outline: none;
+ border-radius: 2px;
+ }
+ .search-box input::placeholder { color: var(--smoke); }
+ .search-results {
+ position: absolute;
+ top: calc(100% + 8px);
+ right: 0;
+ width: 280px;
+ background: rgba(13,12,10,0.97);
+ border: 1px solid rgba(201,169,110,0.2);
+ max-height: 320px;
+ overflow-y: auto;
+ z-index: 200;
+ display: none;
+ }
+ .search-results.visible { display: block; }
+ .search-result-item {
+ padding: 0.75rem 1rem;
+ cursor: pointer;
+ border-bottom: 1px solid rgba(201,169,110,0.07);
+ transition: background 0.15s;
+ }
+ .search-result-item:last-child { border-bottom: none; }
+ .search-result-item:hover { background: rgba(201,169,110,0.08); }
+ .search-result-name {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 1rem;
+ color: var(--cream);
+ }
+ .search-result-brand {
+ font-size: 0.62rem;
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ color: var(--gold);
+ opacity: 0.7;
+ margin-top: 2px;
+ }
+ .search-no-results {
+ padding: 1rem;
+ font-size: 0.8rem;
+ color: var(--smoke);
+ text-align: center;
+ }
+ @media (max-width: 900px) {
+ .search-box.open { width: 180px; }
+ }
+
  /* ── HERO ── */
  .hero {
  position: relative;
@@ -682,6 +774,17 @@
  <li><a href="#dupes">Comparación</a></li>
  <li><a href="#contacto">Contacto</a></li>
  </ul>
+ <div class="search-wrapper" id="searchWrapper">
+ <div class="search-box" id="searchBox">
+ <input type="text" id="searchInput" placeholder="Buscar perfume..." autocomplete="off" />
+ <div class="search-results" id="searchResults"></div>
+ </div>
+ <button class="search-toggle-btn" id="searchToggleBtn" aria-label="Buscar perfume">
+ <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+ <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+ </svg>
+ </button>
+ </div>
  <a href="https://wa.me/5491172393237" target="_blank" class="nav-cta">Consultar por WhatsApp</a>
  <div class="nav-burger" onclick="toggleMenu()">
  <span></span><span></span><span></span>
@@ -760,6 +863,7 @@
  <button class="brand-tab" onclick="showBrand('afnan', this)">Afnan</button>
  <button class="brand-tab" onclick="showBrand('rasasi', this)">Rasasi</button>
  <button class="brand-tab" onclick="showBrand('frenchavenue', this)">French Avenue</button>
+ <button class="brand-tab" onclick="showBrand('otros', this)">Otros</button>
  </div>
 
  <div id="panel-all" class="perfume-panel active"></div>
@@ -770,6 +874,7 @@
  <div id="panel-afnan" class="perfume-panel"></div>
  <div id="panel-rasasi" class="perfume-panel"></div>
  <div id="panel-frenchavenue" class="perfume-panel"></div>
+ <div id="panel-otros" class="perfume-panel"></div>
  </div>
 </section>
 
@@ -1015,14 +1120,14 @@ const perfumes = [
  { brand: 'lattafa', brandName: 'Lattafa', name: 'Fakhar Woman Rose EDP', image: 'fakhar_woman_rose_edp.jpg', ml: 100, price: 60000, gender: 'f', notes: 'Rosa, lichi y almizcle. Una versión femenina romántica y duradera.' },
  { brand: 'lattafa', brandName: 'Lattafa', name: 'Mayar Cherry', image: 'mayar_cherry.jpg', ml: 100, price: 54000, gender: 'f', notes: 'Cereza, flor de cerezo y almizcle. Dulce, fresco y primaveral.' },
  { brand: 'lattafa', brandName: 'Lattafa', name: 'Mayar', image: 'mayar.jpg', ml: 100, price: 60000, gender: 'f', notes: 'Floral amaderado. Rosa, jazmín y sándalo. Clásico femenino oriental.' },
- { brand: 'lattafa', brandName: 'Lattafa', name: 'The Kingdom', image: 'the_kingdom.jpg', ml: 100, price: 68000, gender: 'm', notes: 'Amaderado intenso con especias orientales. Un perfume con presencia real.' },
- { brand: 'lattafa', brandName: 'Lattafa', name: 'Khamrah Qahwa', image: 'khamrah_qahwa.jpg', ml: 100, price: 55000, gender: 'u', notes: 'Café arábigo, especias y oud. Un viaje sensorial a los zocos de Medio Oriente. Uno de los favoritos del catálogo.' },
- { brand: 'lattafa', brandName: 'Lattafa', name: 'Khamrah', image: 'khamrah.jpg', ml: 100, price: 55000, gender: 'u', notes: 'Rum, caramelo, especias y madera. Cálido, envolvente y adictivo.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'The Kingdom', image: 'thekingdom.jpeg', ml: 100, price: 68000, gender: 'm', notes: 'Amaderado intenso con especias orientales. Un perfume con presencia real.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Khamrah Qahwa', image: 'khamrahqahwa.jpeg', ml: 100, price: 55000, gender: 'u', notes: 'Café arábigo, especias y oud. Un viaje sensorial a los zocos de Medio Oriente. Uno de los favoritos del catálogo.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Khamrah', image: 'khamrah.jpeg', ml: 100, price: 57000, gender: 'u', notes: 'Rum, caramelo, especias y madera. Cálido, envolvente y adictivo.' },
  { brand: 'lattafa', brandName: 'Lattafa', name: 'His Confession', image: 'his_confession.jpg', ml: 100, price: 70000, gender: 'm', notes: 'Bergamota, violeta, cuero y almizcle. Sofisticado y masculino.' },
  { brand: 'lattafa', brandName: 'Lattafa', name: 'Her Confession', image: 'her_confession.jpg', ml: 100, price: 70000, gender: 'f', notes: 'Frutas, rosa, sándalo y vainilla. La pareja perfecta de His Confession.' },
  { brand: 'lattafa', brandName: 'Lattafa', name: 'Eclaire', image: 'eclaire.jpg', ml: 100, price: 70000, gender: 'f', notes: 'Vainilla, sándalo y flores blancas. Dulce y elegante, perfecto para la noche.' },
  { brand: 'lattafa', brandName: 'Lattafa', name: 'Confidential', image: 'confidential.jpg', ml: 100, price: 50000, gender: 'u', notes: 'Fresco, limpio y discreto. Ideal para la oficina o el día a día.' },
- { brand: 'lattafa', brandName: 'Lattafa', name: 'Hayaati EDP', image: 'hayaati_edp.jpg', ml: 100, price: 50000, gender: 'm', notes: 'El más accesible del catálogo. Fresco especiado con gran proyección para el precio.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Hayaati EDP', image: 'lataffahayaati.jpeg', ml: 100, price: 50000, gender: 'm', notes: 'El más accesible del catálogo. Fresco especiado con gran proyección para el precio.' },
  { brand: 'lattafa', brandName: 'Lattafa', name: 'Atlas EDP', image: 'atlas_edp.jpg', ml: 50, price: 70000, gender: 'u', notes: 'Oud, sándalo y especias. Un orientale complejo y sofisticado.' },
  { brand: 'afnan', brandName: 'Afnan', name: '9PM Black Men EDP', image: '9pmblackmenedp.jpg', ml: 100, price: 64000, gender: 'm', notes: 'Intenso y seductor para la noche. Lavanda, vainilla negra y madera de cachemira.' },
  { brand: 'afnan', brandName: 'Afnan', name: '9AM Dive EDP', image: '9amdiveedp.jpg', ml: 100, price: 70000, gender: 'u', notes: 'Fresco acuático con notas de té, algas y almizcle marino. Para los días de calor.' },
@@ -1031,6 +1136,36 @@ const perfumes = [
  { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Fire', image: 'hawasfire.webp', ml: 100, price: 77000, gender: 'm', notes: 'Nuez moscada, canela y cardamomo sobre una base de sándalo. Una explosión de especias cálidas y seducción.' },
  { brand: 'frenchavenue', brandName: 'French Avenue', name: 'Liquid Brun', image: 'liquid_brun.jpg', ml: 100, price: 85000, gender: 'u', notes: 'Café, chocolate y especias. Un gourmand oriental de alto nivel. Para los amantes de lo diferente.' },
  { brand: 'frenchavenue', brandName: 'French Avenue', name: 'Vulcan Feu', image: 'vulcan_feu.jpg', ml: 100, price: 88000, gender: 'u', notes: 'Especias ardientes, oud y cuero. Intenso, potente, memorable. No para los tímidos.' },
+ { brand: 'afnan', brandName: 'Afnan', name: '9PM Rebel EDP', image: '9pmrebel.jpeg', ml: 100, price: 81000, gender: 'm', notes: 'Rebelde y seductor. Notas de especias oscuras, cuero y madera ahumada. Para los que no siguen las reglas.' },
+ { brand: 'alharamain', brandName: 'Al Haramain', name: 'Amber Oud Ruby Edition', image: 'alharamainrubyedition.jpeg', ml: 100, price: 101000, gender: 'u', notes: 'Oud rubí, rosa turca y especias cálidas. Una edición especial lujosa y envolvente.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Odyssey Aqua Edition', image: 'armafaquaedition.jpeg', ml: 100, price: 73000, gender: 'm', notes: 'Fresco acuático con notas marinas, cítricos y base amaderada. Perfecto para el calor.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Odyssey Bahamas', image: 'armafbahamas.jpeg', ml: 100, price: 70000, gender: 'm', notes: 'Tropical y frutal. Notas de frutas exóticas, flores y almizcle. Colección Tropical Collection.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Odyssey Homme', image: 'armafhomme.jpeg', ml: 100, price: 60000, gender: 'm', notes: 'Amaderado intenso y masculino. Clásico y elegante para el hombre moderno.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Odyssey Mandarinsky Elixir', image: 'armafmandarynelixir.jpeg', ml: 100, price: 82000, gender: 'm', notes: 'Mandarina, especias y madera. Edición limitada con una combinación única y adictiva.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Odyssey Spectra', image: 'armafspectra.jpeg', ml: 100, price: 60000, gender: 'm', notes: 'Rainbow Edition. Fresco, vibrante y colorido. Una explosión de frescura y energía.' },
+ { brand: 'armaf', brandName: 'Armaf', name: 'Club de Nuit Intense Woman', image: 'clubdenuitintensewomen.jpeg', ml: 105, price: 70000, gender: 'f', notes: 'Floral amaderado con almizcle y notas oscuras. La versión más intensa y sofisticada para ella.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Asad Elixir', image: 'asadelixir.jpeg', ml: 100, price: 69000, gender: 'm', notes: 'Versión más intensa del Asad. Especias oscuras, madera y almizcle profundo. Para los audaces.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Khamrah Dukhan', image: 'khamrahdunkhan.jpeg', ml: 100, price: 57000, gender: 'u', notes: 'Ahumado, especiado y profundo. Incienso, madera y especias orientales. Intenso y memorable.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Emeer', image: 'lataffaemeer.jpeg', ml: 100, price: 70000, gender: 'u', notes: 'Oriental lujoso con oud, especias doradas y almizcle. Un perfume digno de la realeza árabe.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Fakhar Lattafa', image: 'lataffafakhar.jpeg', ml: 100, price: 55000, gender: 'm', notes: 'Orgullo de Lattafa. Oud, especias orientales y madera. Un oriental complejo y sofisticado.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Fakhar Lattafa Rose', image: 'lataffafakharrose.jpeg', ml: 100, price: 67000, gender: 'f', notes: 'Versión femenina del Fakhar. Rosa, oud y almizcle. Elegante y romántico.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Fakhar Lattafa Silver', image: 'lataffafakharsilver.jpeg', ml: 100, price: 61000, gender: 'm', notes: 'Versión plateada del Fakhar. Fresco especiado con fondo amaderado y almizcle.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Pride Art of Universe', image: 'lataffapride.jpeg', ml: 100, price: 69000, gender: 'u', notes: 'Cítrico floral con base amaderada. Una fragancia artística, fresca y elegante.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Qaed Al Fursan', image: 'lataffaqaedalfursan__2_.jpeg', ml: 90, price: 66000, gender: 'm', notes: 'Amaderado especiado con notas de cuero y almizcle. Elegante y masculino.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'Yara My Collection x4', image: 'yarax4.jpeg', ml: 100, price: 66000, gender: 'f', notes: 'Set de 4 fragancias Yara. Incluye Pink, Moi, Candy y original. El regalo perfecto.' },
+ { brand: 'lattafa', brandName: 'Lattafa', name: 'World Cup Parfum', image: 'worldcupparfum.jpeg', ml: 100, price: 137000, gender: 'm', notes: 'Edición especial Copa del Mundo. Oud, especias y madera en un frasco icónico en forma de trofeo.' },
+ { brand: 'bharara', brandName: 'Bharara', name: 'Bharara Double Bleu', image: 'baharablue.jpeg', ml: 100, price: 90000, gender: 'm', notes: 'Fresco acuático con notas de bergamota, cedro y almizcle marino. Elegante y sofisticado.' },
+ { brand: 'frenchavenue', brandName: 'French Avenue', name: 'Azzure Aoud', image: 'frenchavenueblue.jpeg', ml: 100, price: 75000, gender: 'u', notes: 'Fruta de la pasión, azafrán, oud, pachulí y cuero. Fresco y oriental al mismo tiempo.' },
+ { brand: 'frenchavenue', brandName: 'French Avenue', name: 'Vulcan Black', image: 'vulcanblack.jpeg', ml: 100, price: 77000, gender: 'm', notes: 'Oscuro, intenso y poderoso. Especias, oud y cuero. La versión más oscura de la familia Vulcan.' },
+ { brand: 'frenchavenue', brandName: 'French Avenue', name: 'Vulcan Baie', image: 'vulcanpink.jpeg', ml: 100, price: 74000, gender: 'f', notes: 'Frutal floral con un toque especiado. Fresco, femenino y memorable.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Diva', image: 'hawasdiva.jpeg', ml: 100, price: 81000, gender: 'f', notes: 'Floral intenso con rosa, jazmín y almizcle. Para la mujer que no pasa desapercibida.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Eclat', image: 'hawaseclat.jpeg', ml: 100, price: 70000, gender: 'f', notes: 'Floral suave y femenino. Rosa, frutos blancos y almizcle delicado. Fresco para todo el día.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Elixir', image: 'hawaselixir.jpeg', ml: 100, price: 69000, gender: 'u', notes: 'Dorado y envolvente. Especias, madera y almizcle. La versión más lujosa de la familia Hawas.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Black', image: 'hawasforhimblaack.jpeg', ml: 100, price: 70000, gender: 'm', notes: 'Oscuro y seductor. Especias negras, madera y almizcle intenso. Para la noche.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas London', image: 'hawaslondon.jpeg', ml: 100, price: 84000, gender: 'm', notes: 'Sofisticado y urbano. Cítrico fresco con corazón especiado y base amaderada.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Malibu', image: 'hawasmalibu.jpeg', ml: 100, price: 81000, gender: 'm', notes: 'Fresco acuático tropical. Mar, brisa y madera. Para los días de verano.' },
+ { brand: 'rasasi', brandName: 'Rasasi', name: 'Hawas Tropical', image: 'hawastropical.jpeg', ml: 100, price: 79000, gender: 'm', notes: 'Verde y fresco con notas tropicales y almizcle limpio. Refrescante y único.' },
+ { brand: 'otros', brandName: 'Rave', name: 'Rave Now EDP', image: 'ravenow.jpeg', ml: 100, price: 57000, gender: 'm', notes: 'Amaderado especiado con notas oscuras y almizcle. Moderno, elegante y con gran proyección.' },
 ];
 
 function fmtPrice(p) {
@@ -1061,7 +1196,7 @@ function buildCards(list, containerId) {
 }
 
 buildCards(perfumes, 'panel-all');
-['alharamain','bharara','armaf','lattafa','afnan','rasasi','frenchavenue'].forEach(b => {
+['alharamain','bharara','armaf','lattafa','afnan','rasasi','frenchavenue','otros'].forEach(b => {
  buildCards(perfumes.filter(p => p.brand === b), 'panel-' + b);
 });
 
@@ -1111,6 +1246,114 @@ function toggleMenu() {
  links.style.gap = '1.25rem';
  }
 }
+
+/* ── BUSCADOR ── */
+(function() {
+ const toggleBtn = document.getElementById('searchToggleBtn');
+ const searchBox = document.getElementById('searchBox');
+ const searchInput = document.getElementById('searchInput');
+ const searchResults = document.getElementById('searchResults');
+
+ toggleBtn.addEventListener('click', function(e) {
+ e.stopPropagation();
+ const isOpen = searchBox.classList.toggle('open');
+ if (isOpen) {
+ setTimeout(() => searchInput.focus(), 50);
+ } else {
+ searchInput.value = '';
+ searchResults.classList.remove('visible');
+ searchResults.innerHTML = '';
+ }
+ });
+
+ searchInput.addEventListener('input', function() {
+ const q = this.value.trim().toLowerCase();
+ if (q.length < 2) {
+ searchResults.classList.remove('visible');
+ searchResults.innerHTML = '';
+ return;
+ }
+ const matches = perfumes.filter(p =>
+ p.name.toLowerCase().includes(q) || p.brandName.toLowerCase().includes(q)
+ ).slice(0, 8);
+
+ if (matches.length === 0) {
+ searchResults.innerHTML = '<div class="search-no-results">No se encontraron resultados</div>';
+ searchResults.classList.add('visible');
+ return;
+ }
+
+ searchResults.innerHTML = matches.map((p, i) =>
+ `<div class="search-result-item" data-index="${perfumes.indexOf(p)}">
+ <div class="search-result-name">${p.name}</div>
+ <div class="search-result-brand">${p.brandName} · ${p.ml}ml · $${p.price.toLocaleString('es-AR')}</div>
+ </div>`
+ ).join('');
+ searchResults.classList.add('visible');
+
+ searchResults.querySelectorAll('.search-result-item').forEach(item => {
+ item.addEventListener('click', function() {
+ const idx = parseInt(this.dataset.index);
+ const perfume = perfumes[idx];
+
+ // Activar la pestaña de la marca correcta
+ const brandBtn = document.querySelector(`.brand-tab[onclick*="'${perfume.brand}'"]`);
+ if (brandBtn) brandBtn.click();
+
+ // Scroll al catálogo
+ document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+
+ // Esperar que se renderice y resaltar la card
+ setTimeout(() => {
+ const cards = document.querySelectorAll('.perfume-card');
+ let targetCard = null;
+ cards.forEach(card => {
+ const nameEl = card.querySelector('.perfume-name');
+ if (nameEl && nameEl.textContent.trim() === perfume.name) {
+ targetCard = card;
+ }
+ });
+ if (targetCard) {
+ targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ targetCard.style.transition = 'box-shadow 0.3s, border-color 0.3s';
+ targetCard.style.borderColor = 'var(--gold)';
+ targetCard.style.boxShadow = '0 0 24px rgba(201,169,110,0.4)';
+ setTimeout(() => {
+ targetCard.style.borderColor = '';
+ targetCard.style.boxShadow = '';
+ }, 2000);
+ }
+ }, 400);
+
+ // Cerrar el buscador
+ searchBox.classList.remove('open');
+ searchInput.value = '';
+ searchResults.classList.remove('visible');
+ searchResults.innerHTML = '';
+ });
+ });
+ });
+
+ // Cerrar al hacer click fuera
+ document.addEventListener('click', function(e) {
+ if (!document.getElementById('searchWrapper').contains(e.target)) {
+ searchBox.classList.remove('open');
+ searchInput.value = '';
+ searchResults.classList.remove('visible');
+ searchResults.innerHTML = '';
+ }
+ });
+
+ // Cerrar con Escape
+ searchInput.addEventListener('keydown', function(e) {
+ if (e.key === 'Escape') {
+ searchBox.classList.remove('open');
+ searchInput.value = '';
+ searchResults.classList.remove('visible');
+ searchResults.innerHTML = '';
+ }
+ });
+})();
 </script>
 </body>
 </html>
